@@ -1,0 +1,37 @@
+package com.skypay.test.banking_accounts_management_api.config.Security.Token;
+
+
+import com.skypay.test.banking_accounts_management_api.model.User;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class Token {
+
+    @Id
+    @GeneratedValue
+    public Integer id;
+
+    @Column(unique = true)
+    public String token;
+
+    @Embedded
+    @Enumerated(EnumType.STRING)
+    public TokenType tokenType = TokenType.BEARER;
+
+    public boolean revoked;
+
+    public boolean expired;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    public User user;
+
+}
